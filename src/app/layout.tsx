@@ -39,7 +39,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${zenKaku.variable} antialiased w-screen overflow-hidden`}
         suppressHydrationWarning={true}
       >
-        <Header />
         {children}
       </body>
     </html>
