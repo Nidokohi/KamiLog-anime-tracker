@@ -1,10 +1,10 @@
 
 export interface AnimeEpisodesResponse {
-  pagination: EpisodesPagination;
+  pagination: Pagination;
   data: AnimeEpisode[];
 }
 
-export interface EpisodesPagination {
+export interface Pagination {
   last_visible_page: number;
   has_next_page: boolean;
 }

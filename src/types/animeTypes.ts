@@ -1,3 +1,4 @@
+import { Pagination } from "./episodeTypes";
 
 export interface AnimeImages {
   jpg: {
@@ -106,4 +107,9 @@ export interface Anime {
   explicit_genres: AnimeGenre[];
   themes: AnimeGenre[];
   demographics: AnimeGenre[];
+}
+
+export interface AnimeResponse {
+  pagination: Pagination
+  data: Anime[];
 }
