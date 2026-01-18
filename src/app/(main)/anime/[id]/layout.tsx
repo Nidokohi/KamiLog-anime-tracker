@@ -11,15 +11,15 @@ export default function AnimeLayout({
 }: AnimeLayoutProps) {
 
     return (
-        <main className="flex flex-col items-center justify-items-center pb-5 w-screen h-[calc(100vh-64px)] overflow-auto">  
+        <main className="flex flex-col items-center justify-items-center pb-5 w-screen overflow-auto">  
             <div className="my-8 w-5/6 h-max">
                 {hero}
             </div>
-            <div className="flex flex-row gap-10 items-start justify-items-start w-5/6 h-max">
-                <div className="w-1/6 h-full">
+            <div className="flex flex-row items-start gap-2 justify-items-start w-5/6">
+                <div className="w-1/5 h-full">
                     {extra_info}
                 </div>
-                <div className="w-5/6 h-full">
+                <div className="w-4/5 h-full">
                     {episodes}
                 </div>
             </div>

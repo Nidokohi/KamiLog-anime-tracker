@@ -7,21 +7,24 @@ import { getAnimeInfo } from "@/lib/getAnimeInfo";
 function InfoRow({ label, value }: { label: string; value: string | Aired | AnimeGenre[] }) {
     
     const formatLabel = (label: string) => {
-        return label.charAt(0).toUpperCase() + label.slice(1).replace("_", " ");
+
+        if (!label) return "---";
+
+        return label.charAt(0).toUpperCase() + label.slice(1);
     }
     
     if (label === "status") {
 
         const statusColors = {
-            "Finished Airing": "text-green-500",
-            "Currently Airing": "text-yellow-500",
-            "Not yet aired": "text-gray-500"
+            "Finished Airing": "text-green-600",
+            "Currently Airing": "text-yellow-600",
+            "Not yet aired": "text-gray-600"
         };
 
         return (
             <div className="flex flex-col gap-1">
                 <span className="text-xs font-semibold text-gray-400">{formatLabel(label)}</span>
-                <span className={`text-sm font-bold tracking-wide underline underline-offset-1 ${statusColors[value as keyof typeof statusColors] || "text-white"}`}>
+                <span className={`text-sm font-bold tracking-wider underline underline-offset-1 ${statusColors[value as keyof typeof statusColors] || "text-white"}`}>
                     {value.toString()}
                 </span>
             </div>
@@ -29,8 +32,9 @@ function InfoRow({ label, value }: { label: string; value: string | Aired | Anim
     }
     else if (label === "aired") {
 
-        const startDate = formatDate((value as Aired).from || " ");
-    const endDate = (value as Aired)?.to ? formatDate((value as Aired).to || " ") : "---";
+        const startDate = formatDate((value as Aired)?.from);
+        const endDate = formatDate((value as Aired)?.to);
+
 
         return (
             <>
@@ -45,12 +49,20 @@ function InfoRow({ label, value }: { label: string; value: string | Aired | Anim
             </>
         )
     }
-    else if (label === "genres" || label === "demographics") {
+    else if (label === "genres" || label === "demographics" || label === "studios") {
 
+        if (!(value as AnimeGenre[]).length) {
+            return (
+                <div className="flex flex-col gap-1">
+                    <span className="text-xs font-semibold text-gray-400">{formatLabel(label)}</span>
+                    <span className="text-sm font-normal">---</span>
+                </div>
+            )
+        }
         return (
             <div className="flex flex-col gap-1">
                 <span className="text-xs font-semibold text-gray-400">{formatLabel(label)}</span>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1">
                     {(value as AnimeGenre[]).map((genre) => (
                         <span key={genre.mal_id} className="text-sm font-normal">{genre.name}</span>
                     ))}
@@ -62,24 +74,24 @@ function InfoRow({ label, value }: { label: string; value: string | Aired | Anim
         return (
             <div className="flex flex-col gap-1">
                 <span className="text-xs font-semibold text-gray-400">{formatLabel(label)}</span>
-                <span className="text-sm font-normal">{value.toString()}</span>
+                <span className="text-sm font-normal">{formatLabel(value?.toString())}</span>
             </div>
         )
     }   
 }
 
 
-// type ExtraInfo = Pick<Anime, "type" | "year" | "episodes" | "status" | "duration" | "rating" | "aired" | "genres" | "demographics">;
-
 export default async function ExtraInfoPage({ params }: { params: { id: string }}) {
 
-    const animeInfo: Anime = await getAnimeInfo("52991");
+    const animeId = (await params).id;
+
+    const animeInfo: Anime = await getAnimeInfo(animeId);
     
-    const animeKeys = ["type", "year", "episodes", "status", "duration", "rating", "aired", "genres", "demographics"];
+    const animeKeys = ["type", "season", "year", "episodes", "status", "duration", "rating", "aired", "genres", "demographics", "studios"];
 
     return (
-        <div className="bg-base-300 h-max w-full p-5 gap-20 rounded-md shadow-sm">
-            <div className="flex flex-col gap-4">
+        <div className="bg-base-300 h-full w-full p-5 gap-20 shadow-sm">
+            <div className="flex flex-col gap-3 sticky top-5">
                 {animeKeys.map((key) => (
                     <InfoRow key={key} label={key} value={animeInfo[key as keyof Anime] as string | Aired | AnimeGenre[]} />
                 ))}
