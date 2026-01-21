@@ -11,6 +11,8 @@ const REVALIDATE = 86400 / 2;
 
 export const getAnimeInfo = cache(async (id: string | number) => {
     
+    await delay();
+    
     const res = await fetch(`${JIKAN_API}/anime/${id}`, {
         next: { revalidate: 86400 }
     })
@@ -20,12 +22,14 @@ export const getAnimeInfo = cache(async (id: string | number) => {
 
     const data = await res.json();
 
-    await delay(500);
 
     return data.data as Anime;
 });
 
 export const getAnimeEpisodes = cache(async (id: string, page: number) => {
+    
+    await delay();
+    
     const res = await fetch(`${JIKAN_API}/anime/${id}/episodes?page=${page}`, {
         next: { revalidate: REVALIDATE }
     });
@@ -34,7 +38,6 @@ export const getAnimeEpisodes = cache(async (id: string, page: number) => {
     }
     const data = await res.json();
 
-    await delay(500);
 
     return data as AnimeEpisodesResponse;
 });
@@ -47,11 +50,12 @@ export const getTopAnime = cache(async (type?: string, filter?: string, page: nu
     if (filter) params.append("filter", filter);
     
     params.append("page", page.toString());
-
+    
     const res = await fetch(`${JIKAN_API}/top/anime?${params.toString()}`, {
         next: { revalidate: REVALIDATE }
     });
     
+    await delay();
 
     if (!res.ok) {
         throw new Error(`Failed to fetch top anime: ${res.status} ${res.type}`)
@@ -64,7 +68,6 @@ export const getTopAnime = cache(async (type?: string, filter?: string, page: nu
 
     const uniqueData = removeDupes(orderedData).slice(0, limit);
 
-    await delay(500);
 
     return { ...data, data: uniqueData } as AnimeResponse;
 });
@@ -80,7 +83,7 @@ export const getCurrentSeasonAnime = cache(async () => {
     
     const data = await res.json();  
 
-    await delay(500);
+    await delay();
 
     return data as AnimeResponse;
 });
@@ -115,7 +118,7 @@ export const getAnimeSchedule = async (day?: string, kids?: boolean, sfw?: boole
 
     const uniqueData = removeDupes(orderedData);
 
-    await delay(500);
+    await delay();
 
     return { ...data, data: uniqueData } as AnimeResponse;
 };
@@ -144,7 +147,7 @@ export const getAnimeSearch = async({q, type, sfw, orderBy, sort="asc", page = 1
 
     const data = await res.json();
 
-    await delay(500);
+    await delay();
     
     return data as AnimeResponse;
 };
