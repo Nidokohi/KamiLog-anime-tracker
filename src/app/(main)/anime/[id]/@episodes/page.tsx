@@ -1,12 +1,11 @@
 
+
+
 import { AnimeTrailer } from "@/types/animeTypes";
 import { AnimeEpisodesResponse, AnimeEpisode } from "@/types/episodeTypes";
 import { getAnimeInfo, getAnimeEpisodes } from "@/lib/getAnimeInfo";
 import { EmbedVid } from "@/components";
-import { ChevronsLeft, ChevronLeft, ChevronRight, ChevronsRight } from "lucide-react";
 import { Pagination } from "@/ui";
-import Link from "next/link";
-
 
 function EpisodesList({ episodes }: { episodes: AnimeEpisode}) {
     

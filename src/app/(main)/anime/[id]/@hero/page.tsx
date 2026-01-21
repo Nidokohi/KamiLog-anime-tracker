@@ -12,6 +12,17 @@ export default async function HeroPage({ params }: { params: { id: string }}) {
     const animeInfo: AnimeInfo = await getAnimeInfo(animeId);
 
 
+    // const [animeInfo, setAnimeInfo] = useState<AnimeInfo | undefined>(undefined);
+    
+    // useEffect(() => {
+    //     const fetchAnime = async () => {
+    //         const data = await getAnimeInfo(params.id);
+    //         setAnimeInfo(data);
+    //         await delay();
+    //     };
+    //     fetchAnime();
+    // }, [params.id]);
+
     return (
         <div className="card lg:card-side bg-base-300 px-10 pt-8 pb-6 gap-8 shadow-sm rounded-md items-center xl:items-start justify-items-start">
             <div className="flex flex-col gap-4 w-max h-max items-start">
