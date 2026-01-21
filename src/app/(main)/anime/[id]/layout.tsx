@@ -1,9 +1,27 @@
 
+import { getAnimeInfo } from "@/lib/getAnimeInfo";
+import { Anime } from "@/types/animeTypes";
+import { Metadata } from "next";
 
 type AnimeLayoutProps = {
     episodes: React.ReactNode;
     extra_info: React.ReactNode;
     hero: React.ReactNode;
+}
+
+type Params = {
+    id: string;
+}
+
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+
+    const animeId = (await params).id;
+   
+    const animeInfo: Anime = await getAnimeInfo(animeId);
+
+    return {
+        title: animeInfo.title
+    }
 }
 
 export default function AnimeLayout({

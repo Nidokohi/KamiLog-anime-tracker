@@ -1,5 +1,10 @@
 
 import { Header } from "@/ui";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Search - KamiLog",
+};
 
 export default function MainLayout({
   children,
