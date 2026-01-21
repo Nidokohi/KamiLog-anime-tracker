@@ -15,7 +15,7 @@ export const getAnimeInfo = cache(async (id: string | number) => {
         next: { revalidate: 86400 }
     })
     if (!res.ok) {
-        throw new Error("Failed to fetch anime info")
+        throw new Error(`Failed to fetch anime info: ${res.status} ${res.type}`)
     }   
 
     const data = await res.json();
@@ -30,7 +30,7 @@ export const getAnimeEpisodes = cache(async (id: string, page: number) => {
         next: { revalidate: REVALIDATE }
     });
     if (!res.ok) {
-        throw new Error("Failed to fetch anime episodes")
+        throw new Error(`Failed to fetch anime episodes: ${res.status} ${res.type}`)
     }
     const data = await res.json();
 
@@ -54,7 +54,7 @@ export const getTopAnime = cache(async (type?: string, filter?: string, page: nu
     
 
     if (!res.ok) {
-        throw new Error("Failed to fetch top anime")
+        throw new Error(`Failed to fetch top anime: ${res.status} ${res.type}`)
     }   
     const data = await res.json();
 
@@ -75,7 +75,7 @@ export const getCurrentSeasonAnime = cache(async () => {
     });
 
     if (!res.ok) {
-        throw new Error("Failed to fetch current season anime")
+        throw new Error(`Failed to fetch current season anime: ${res.status} ${res.type}`)
     }
     
     const data = await res.json();  
@@ -105,7 +105,7 @@ export const getAnimeSchedule = async (day?: string, kids?: boolean, sfw?: boole
 
     
     if (!res.ok) {
-        throw new Error("Failed to fetch anime schedule")
+        throw new Error(`Failed to fetch anime schedule: ${res.status} ${res.type}`)
     }
     const data = await res.json();
 
@@ -139,7 +139,7 @@ export const getAnimeSearch = async({q, type, sfw, orderBy, sort="asc", page = 1
     const res = await fetch(`${JIKAN_API}/anime?${params.toString()}`);
 
     if (!res.ok) {
-        throw new Error("Failed to fetch anime search results")
+        throw new Error(`Failed to fetch anime search results: ${res.status} ${res.type}`)
     }
 
     const data = await res.json();
