@@ -1,3 +1,4 @@
+'use client'
 
 import { getTopAnime } from "@/lib/getAnimeInfo";
 import { Anime } from "@/types/animeTypes";
