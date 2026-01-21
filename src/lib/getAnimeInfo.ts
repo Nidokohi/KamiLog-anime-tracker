@@ -3,37 +3,41 @@ import { cache } from "react"
 import { Anime, AnimeResponse } from "@/types/animeTypes"
 import { AnimeEpisodesResponse } from "@/types/episodeTypes";
 import { removeDupes } from "@/utils/removeDupes";
+import { delay } from "@/utils/delay";
 
 const JIKAN_API = process.env.NEXT_PUBLIC_JIKAN_API_URL;
 
-const REVALIDATE = 86400 / 2; // 12 hours
+const REVALIDATE = 86400 / 2;
 
 export const getAnimeInfo = cache(async (id: string | number) => {
+    
+    await delay();
     
     const res = await fetch(`${JIKAN_API}/anime/${id}`, {
         next: { revalidate: 86400 }
     })
     if (!res.ok) {
-        throw new Error("Failed to fetch anime info")
+        throw new Error(`Failed to fetch anime info: ${res.status} ${res.type}`)
     }   
 
     const data = await res.json();
 
-    // console.log(data);
 
     return data.data as Anime;
 });
 
 export const getAnimeEpisodes = cache(async (id: string, page: number) => {
+    
+    await delay();
+    
     const res = await fetch(`${JIKAN_API}/anime/${id}/episodes?page=${page}`, {
         next: { revalidate: REVALIDATE }
     });
     if (!res.ok) {
-        throw new Error("Failed to fetch anime episodes")
+        throw new Error(`Failed to fetch anime episodes: ${res.status} ${res.type}`)
     }
     const data = await res.json();
 
-    // console.log(data);
 
     return data as AnimeEpisodesResponse;
 });
@@ -46,15 +50,15 @@ export const getTopAnime = cache(async (type?: string, filter?: string, page: nu
     if (filter) params.append("filter", filter);
     
     params.append("page", page.toString());
-    // params.append("limit", limit.toString());
-
+    
     const res = await fetch(`${JIKAN_API}/top/anime?${params.toString()}`, {
         next: { revalidate: REVALIDATE }
     });
     
+    await delay();
 
     if (!res.ok) {
-        throw new Error("Failed to fetch top anime")
+        throw new Error(`Failed to fetch top anime: ${res.status} ${res.type}`)
     }   
     const data = await res.json();
 
@@ -62,14 +66,10 @@ export const getTopAnime = cache(async (type?: string, filter?: string, page: nu
         (a: Anime, b: Anime) => (a.rank ?? Infinity) - (b.rank ?? Infinity)
      );
 
-    // console.log(data);
-
-    // console.log(orderedData);
-
     const uniqueData = removeDupes(orderedData).slice(0, limit);
 
+
     return { ...data, data: uniqueData } as AnimeResponse;
-    // return data as AnimeResponse;
 });
 
 export const getCurrentSeasonAnime = cache(async () => {
@@ -78,10 +78,12 @@ export const getCurrentSeasonAnime = cache(async () => {
     });
 
     if (!res.ok) {
-        throw new Error("Failed to fetch current season anime")
+        throw new Error(`Failed to fetch current season anime: ${res.status} ${res.type}`)
     }
     
     const data = await res.json();  
+
+    await delay();
 
     return data as AnimeResponse;
 });
@@ -106,7 +108,7 @@ export const getAnimeSchedule = async (day?: string, kids?: boolean, sfw?: boole
 
     
     if (!res.ok) {
-        throw new Error("Failed to fetch anime schedule")
+        throw new Error(`Failed to fetch anime schedule: ${res.status} ${res.type}`)
     }
     const data = await res.json();
 
@@ -115,6 +117,8 @@ export const getAnimeSchedule = async (day?: string, kids?: boolean, sfw?: boole
     );
 
     const uniqueData = removeDupes(orderedData);
+
+    await delay();
 
     return { ...data, data: uniqueData } as AnimeResponse;
 };
@@ -138,10 +142,12 @@ export const getAnimeSearch = async({q, type, sfw, orderBy, sort="asc", page = 1
     const res = await fetch(`${JIKAN_API}/anime?${params.toString()}`);
 
     if (!res.ok) {
-        throw new Error("Failed to fetch anime search results")
+        throw new Error(`Failed to fetch anime search results: ${res.status} ${res.type}`)
     }
 
     const data = await res.json();
+
+    await delay();
     
     return data as AnimeResponse;
 };
