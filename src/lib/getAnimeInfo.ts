@@ -3,10 +3,11 @@ import { cache } from "react"
 import { Anime, AnimeResponse } from "@/types/animeTypes"
 import { AnimeEpisodesResponse } from "@/types/episodeTypes";
 import { removeDupes } from "@/utils/removeDupes";
+import { delay } from "@/utils/delay";
 
 const JIKAN_API = process.env.NEXT_PUBLIC_JIKAN_API_URL;
 
-const REVALIDATE = 86400 / 2; // 12 hours
+const REVALIDATE = 86400 / 2;
 
 export const getAnimeInfo = cache(async (id: string | number) => {
     
@@ -19,7 +20,7 @@ export const getAnimeInfo = cache(async (id: string | number) => {
 
     const data = await res.json();
 
-    // console.log(data);
+    await delay(500);
 
     return data.data as Anime;
 });
@@ -33,7 +34,7 @@ export const getAnimeEpisodes = cache(async (id: string, page: number) => {
     }
     const data = await res.json();
 
-    // console.log(data);
+    await delay(500);
 
     return data as AnimeEpisodesResponse;
 });
@@ -46,7 +47,6 @@ export const getTopAnime = cache(async (type?: string, filter?: string, page: nu
     if (filter) params.append("filter", filter);
     
     params.append("page", page.toString());
-    // params.append("limit", limit.toString());
 
     const res = await fetch(`${JIKAN_API}/top/anime?${params.toString()}`, {
         next: { revalidate: REVALIDATE }
@@ -62,14 +62,11 @@ export const getTopAnime = cache(async (type?: string, filter?: string, page: nu
         (a: Anime, b: Anime) => (a.rank ?? Infinity) - (b.rank ?? Infinity)
      );
 
-    // console.log(data);
-
-    // console.log(orderedData);
-
     const uniqueData = removeDupes(orderedData).slice(0, limit);
 
+    await delay(500);
+
     return { ...data, data: uniqueData } as AnimeResponse;
-    // return data as AnimeResponse;
 });
 
 export const getCurrentSeasonAnime = cache(async () => {
@@ -82,6 +79,8 @@ export const getCurrentSeasonAnime = cache(async () => {
     }
     
     const data = await res.json();  
+
+    await delay(500);
 
     return data as AnimeResponse;
 });
@@ -116,6 +115,8 @@ export const getAnimeSchedule = async (day?: string, kids?: boolean, sfw?: boole
 
     const uniqueData = removeDupes(orderedData);
 
+    await delay(500);
+
     return { ...data, data: uniqueData } as AnimeResponse;
 };
 
@@ -142,6 +143,8 @@ export const getAnimeSearch = async({q, type, sfw, orderBy, sort="asc", page = 1
     }
 
     const data = await res.json();
+
+    await delay(500);
     
     return data as AnimeResponse;
 };
