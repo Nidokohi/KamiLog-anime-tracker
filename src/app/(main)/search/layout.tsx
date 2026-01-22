@@ -6,7 +6,6 @@ import { useSearchParams } from "next/navigation";
 
 type SearchLayoutProps = {
     search_results: React.ReactNode;
-    top_anime: React.ReactNode;
 }
 
 export default function SearchLayout({

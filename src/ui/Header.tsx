@@ -14,8 +14,8 @@ export default function Header() {
     const [query, setQuery] = useState("");
 
     const search = (query: string) => {
-        setQuery("");
         router.push(`/search?q=${query}`);
+        setQuery("");
     }
 
     const redirectHome = () => {
