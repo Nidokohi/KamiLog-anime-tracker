@@ -18,11 +18,11 @@ export default  function TopAnimePage() {
    useEffect(() => {
 
         const fetchAnimes = async () => {
+            await delay();
             const [topAnimeData, topUpcomingData] = await Promise.all([
                 getTopAnime("tv").then(data => data.data),
                 getTopAnime("tv", "upcoming").then(data => data.data)
             ]);
-            await delay();
             setTopAnime(topAnimeData);
             setTopUpcoming(topUpcomingData);
         };

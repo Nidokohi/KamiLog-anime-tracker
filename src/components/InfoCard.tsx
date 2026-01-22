@@ -62,7 +62,7 @@ export default function InfoCard({ anime, hasTime = true, hasRating = true }: In
                     </div>
                 </div>
             </div>
-            <div className="flex flex-row items-center justify-center bg-base-100 gap-1 p-1 border-y-2 border-base-300 w-full">
+            <div className="flex flex-row items-start justify-center bg-base-100 gap-1 p-1 border-y-2 border-base-300 w-full">
                 <figure className="p-2 shrink-0">
                     <a href={`/anime/${anime.mal_id}`} className="hover:cursor-pointer">
                         <Image src={anime.images.webp.image_url} alt={anime.title} width={150} height={250}/>
