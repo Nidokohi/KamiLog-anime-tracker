@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import { getAnimeSearch } from "@/lib/getAnimeInfo";
 import { useSearchParams } from "next/navigation";
-import { Anime, AnimeResponse } from "@/types/animeTypes";
+import { AnimeResponse } from "@/types/animeTypes";
 import { InfoCard } from "@/components";
 import { Pagination } from "@/ui";
 import { delay } from "@/utils/delay";
@@ -57,9 +57,9 @@ export default function SearchResults() {
             <h1 className="font-bold text-xl pb-2 border-b-2 border-base-300 w-full text-center">Search Results for &quot;{query}&quot;</h1>
             <div className="p-5 grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 w-full">
                     {loading ? (
-                    Array.from({ length: 6 }).map((_, i) => (
-                        <div key={i} className="skeleton h-80 w-full rounded-lg"></div>
-                    ))
+                        Array.from({ length: 6 }).map((_, i) => (
+                            <div key={i} className="skeleton h-80 w-full rounded-lg"></div>
+                        ))
                     ) : query === "" ? (
                         <p className="text-center col-span-3 p-4 text-xl w-full bg-base-300 font-bold tracking-wider border-2 border-red-400">
                             Please enter a search query.
