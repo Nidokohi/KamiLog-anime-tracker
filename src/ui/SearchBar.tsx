@@ -1,16 +1,17 @@
 
 'use client'
 
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react";
 
 
-export default function SearchBar({ size }: { size?: "sm" | "md" | "lg" }) {
+export default function SearchBar({ size }: { size?: "sm" | "md" | "lg"}) {
 
     const router = useRouter();
+    const searchParams = useSearchParams();
 
-    const [query, setQuery] = useState("");
-
+    const [query, setQuery] = useState(searchParams.get("q") ?? "");
+    
     const handleSearch = () => {
         router.replace(`/search?q=${encodeURIComponent(query)}`);
     }
