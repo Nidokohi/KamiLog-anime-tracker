@@ -14,7 +14,7 @@ export default function Header() {
     const [query, setQuery] = useState("");
 
     const search = (query: string) => {
-        router.push(`/search?q=${query}`);
+        router.push(`/search?q=${encodeURIComponent(query)}`);
         setQuery("");
     }
 
