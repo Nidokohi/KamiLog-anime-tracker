@@ -11,7 +11,7 @@ function TabContent({ day, isToday, data }: { day: string, isToday: boolean, dat
         <>
             <input type="radio" name="day_tabs" className="tab mx-1" id={day} aria-label={day} defaultChecked={isToday} />
             <div className="tab-content border-base-300 bg-base-100 p-5">
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 gap-4">
                     { data.length === 0 && (
                         <p className="text-center col-span-2">No anime scheduled for {day}.</p>
                     )}

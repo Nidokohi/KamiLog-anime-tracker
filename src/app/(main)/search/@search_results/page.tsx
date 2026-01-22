@@ -55,7 +55,7 @@ export default function SearchResults() {
     return (
       <div className="flex flex-col items-center justify-items-start py-4 gap-5 h-full w-full px-4 ">  
             <h1 className="font-bold text-xl pb-2 border-b-2 border-base-300 w-full text-center">Search Results for &quot;{query}&quot;</h1>
-            <div className="p-5 grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 w-full">
+            <div className="p-5 grid sm:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 gap-4 w-full">
                     {loading ? (
                         Array.from({ length: 6 }).map((_, i) => (
                             <div key={i} className="skeleton h-80 w-full rounded-lg"></div>
