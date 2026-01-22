@@ -5,12 +5,12 @@ import { useRouter } from "next/navigation"
 import { useState } from "react";
 
 
-export default function SearchBar({ size }: { size?: "sm" | "md" | "lg" }) {
+export default function SearchBar({ size, value }: { size?: "sm" | "md" | "lg", value?: string }) {
 
     const router = useRouter();
 
-    const [query, setQuery] = useState("");
-
+    const [query, setQuery] = useState(value ?? "");
+    
     const handleSearch = () => {
         router.replace(`/search?q=${encodeURIComponent(query)}`);
     }
