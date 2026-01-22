@@ -3,6 +3,9 @@
   themes: black --default;
 };
 
+@theme {
+  --breakpoint-3xl: 120rem;
+}
 
 :root {
   

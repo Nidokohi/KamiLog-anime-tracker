@@ -5,10 +5,18 @@ import { UserRound } from "lucide-react";
 import { ThemeToggle, SearchBar } from "@/ui";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Header() {
 
     const router = useRouter();
+
+    const [query, setQuery] = useState("");
+
+    const search = (query: string) => {
+        router.push(`/search?q=${query}`);
+        setQuery("");
+    }
 
     const redirectHome = () => {
         router.push("/home");
@@ -23,9 +31,9 @@ export default function Header() {
                 <a className="text-3xl text-white font-(--font-zen-kaku) font-bont tracking-[0.06em]" >KamiLog</a>
             </div>
             <div className="flex w-max gap-8 justify-items-center">
-                <SearchBar size={"sm"} />
+                <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') search(query); }} />
                 {/* <ThemeToggle /> */}
-                <div className="w-14 rounded-full bg-gray-600 items-center justify-items-center p-1 hover:cursor-pointer"> 
+                <div className="w-10 rounded-full bg-gray-600 items-center justify-items-center p-1 hover:cursor-pointer"> 
                     <UserRound size={30} className="text-white"/>
                 </div>
             </div>

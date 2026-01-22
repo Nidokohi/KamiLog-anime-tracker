@@ -15,21 +15,19 @@ export default  function TopAnimePage() {
     const [topAnime, setTopAnime] = useState<Anime[]>([]);
     const [topUpcoming, setTopUpcoming] = useState<Anime[]>([]);
 
-    useEffect(() => {
+   useEffect(() => {
 
-        const fetchTopAnime = async () => {
-            const topAnimeData = await getTopAnime("tv").then(data => data.data);
+        const fetchAnimes = async () => {
             await delay();
+            const [topAnimeData, topUpcomingData] = await Promise.all([
+                getTopAnime("tv").then(data => data.data),
+                getTopAnime("tv", "upcoming").then(data => data.data)
+            ]);
             setTopAnime(topAnimeData);
-        };
-        const fetchTopUpcoming = async () => {
-            const topUpcomingData = await getTopAnime("tv", "upcoming").then(data => data.data);
-            await delay();
             setTopUpcoming(topUpcomingData);
-        };  
-        fetchTopAnime();
-        fetchTopUpcoming();
-
+        };
+        fetchAnimes();
+        
     }, []);
 
     return (
